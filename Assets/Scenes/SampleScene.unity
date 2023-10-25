@@ -1253,6 +1253,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 2936078631605067253, guid: d6aa24a19730d69408cb3c39d2c32fad, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2936078631605067253, guid: d6aa24a19730d69408cb3c39d2c32fad, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8932978202806070961, guid: d6aa24a19730d69408cb3c39d2c32fad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.6
