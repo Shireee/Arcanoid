@@ -54,15 +54,24 @@ public class PlayerScript : MonoBehaviour
     IEnumerator BallDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
-        if (GameObject.FindGameObjectsWithTag("Ball").Length == 0) CreateBalls();
+        if (GameObject.FindGameObjectsWithTag("Ball").Length == 0)
+            if (gameData.balls > 0) CreateBalls();
+            else
+            {
+                gameData.Reset();
+                SceneManager.LoadScene("MainScene");
+            }
     }
     public void BallDestroyed()
     {
+        gameData.balls--;
         StartCoroutine(BallDestroyedCoroutine());
     }
     void CreateBalls()
     {
         int count = 2;
+        if (gameData.balls == 1) count = 1;
+
         for (int i = 0; i < count; i++)
         {
             var obj = Instantiate(ballPrefab);
