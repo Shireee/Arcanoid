@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class PlayerScript : MonoBehaviour
 {
@@ -13,22 +16,24 @@ public class PlayerScript : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+    static Collider2D[] colliders = new Collider2D[50];
+    static ContactFilter2D contactFilter = new ContactFilter2D();
 
-    void Start()
+    void CreateBlocks(GameObject prefab, float xMax, float yMax,int count, int maxCount)
     {
-        Cursor.visible = false;
-        StartLevel();
-    }
-    void CreateBlocks(GameObject prefab, float xMax, float yMax,
-     int count, int maxCount)
-    {
-        if (count > maxCount)
-            count = maxCount;
-        for (int i = 0; i < count; i++)
-            Instantiate(prefab,
-            new Vector3((Random.value * 2 - 1) * xMax,
-            Random.value * yMax, 0),
-            Quaternion.identity);
+        {
+            if (count > maxCount) count = maxCount;
+            for (int i = 0; i < count; i++)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    var obj = Instantiate(prefab,
+                    new Vector3((Random.value * 2 - 1) * xMax, Random.value * yMax, 0), Quaternion.identity);
+                    if (obj.GetComponent<Collider2D>().OverlapCollider(contactFilter.NoFilter(), colliders) == 0) break;
+                    Destroy(obj);
+                }
+            }
+        }
     }
     void CreateBalls()
     {
@@ -41,8 +46,15 @@ public class PlayerScript : MonoBehaviour
             ball.ballInitialForce *= 1 + level * ballVelocityMult;
         }
     }
+    void SetBackground()
+    {
+        var bg = GameObject.Find("Background").GetComponent<SpriteRenderer>();
+        bg.sprite = Resources.Load(level.ToString("d2"), typeof(Sprite)) as Sprite;
+    }
+
     void StartLevel()
     {
+        SetBackground();
         var yMax = Camera.main.orthographicSize * 0.8f;
         var xMax = Camera.main.orthographicSize * Camera.main.aspect * 0.85f;
         CreateBlocks(bluePrefab, xMax, yMax, level, 8);
@@ -50,6 +62,11 @@ public class PlayerScript : MonoBehaviour
         CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
         CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
         CreateBalls();
+    }
+    void Start()
+    {
+        Cursor.visible = false;
+        StartLevel();
     }
     void Update()
     {

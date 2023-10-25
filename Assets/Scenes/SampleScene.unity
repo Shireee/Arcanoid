@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81f6d04bfa0fe643ba94e6ffd88b6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 30
+  level: 4
   ballVelocityMult: 0.02
   bluePrefab: {fileID: 8005197060403792497, guid: 4f720ffe1ac2ecb4ea6df312cf0c75f2, type: 3}
   redPrefab: {fileID: 5758130015118013104, guid: 607e31bc4dbe6e741a8ab19540059a5b, type: 3}
@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 1439395295}
   - component: {fileID: 1439395294}
   m_Layer: 9
-  m_Name: Square
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
