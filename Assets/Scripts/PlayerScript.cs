@@ -19,6 +19,16 @@ public class PlayerScript : MonoBehaviour
     static ContactFilter2D contactFilter = new ContactFilter2D();
     public GameDataScript gameData;
     static bool gameStarted = false;
+    AudioSource audioSrc;
+    public AudioClip pointSound;
+
+    void SetMusic()
+    {
+        if (gameData.music)
+            audioSrc.Play();
+        else
+            audioSrc.Stop();
+    }
 
     void OnGUI()
     {
@@ -57,6 +67,7 @@ public class PlayerScript : MonoBehaviour
     public void BlockDestroyed(int points)
     {
         gameData.points += points;
+        if (gameData.sound) audioSrc.PlayOneShot(pointSound, 5);
         StartCoroutine(BlockDestroyedCoroutine());
     }
 
@@ -108,6 +119,7 @@ public class PlayerScript : MonoBehaviour
     }
     void Start()
     {
+        audioSrc = Camera.main.GetComponent<AudioSource>();
         Cursor.visible = false;
         if (!gameStarted)
         {
@@ -115,6 +127,7 @@ public class PlayerScript : MonoBehaviour
             if (gameData.resetOnStart) gameData.Reset();
         }
         level = gameData.level;
+        SetMusic();
         StartLevel();
     }
 
@@ -124,5 +137,12 @@ public class PlayerScript : MonoBehaviour
         var pos = transform.position;
         pos.x = mousePos.x;
         transform.position = pos;
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            gameData.music = !gameData.music;
+            SetMusic();
+        }
+        if (Input.GetKeyDown(KeyCode.S)) gameData.sound = !gameData.sound;
+
     }
 }
