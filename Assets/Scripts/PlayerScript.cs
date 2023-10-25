@@ -21,6 +21,8 @@ public class PlayerScript : MonoBehaviour
     static bool gameStarted = false;
     AudioSource audioSrc;
     public AudioClip pointSound;
+    int requiredPointsToBall { get { return 400 + (level - 1) * 20; } }
+
 
     void SetMusic()
     {
@@ -55,6 +57,16 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+
+    IEnumerator BlockDestroyedCoroutine2()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new WaitForSeconds(0.2f);
+            audioSrc.PlayOneShot(pointSound, 5);
+        }
+    }
+
     IEnumerator BlockDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
@@ -68,6 +80,14 @@ public class PlayerScript : MonoBehaviour
     {
         gameData.points += points;
         if (gameData.sound) audioSrc.PlayOneShot(pointSound, 5);
+        gameData.pointsToBall += points;
+        if (gameData.pointsToBall >= requiredPointsToBall)
+        {
+            gameData.balls++;
+            gameData.pointsToBall -= requiredPointsToBall;
+            if (gameData.sound) StartCoroutine(BlockDestroyedCoroutine2());
+
+        }
         StartCoroutine(BlockDestroyedCoroutine());
     }
 
