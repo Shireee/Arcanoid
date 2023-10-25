@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 
 public class PlayerScript : MonoBehaviour
@@ -18,6 +17,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject ballPrefab;
     static Collider2D[] colliders = new Collider2D[50];
     static ContactFilter2D contactFilter = new ContactFilter2D();
+    public GameDataScript gameData;
+    static bool gameStarted = false;
 
     void CreateBlocks(GameObject prefab, float xMax, float yMax,int count, int maxCount)
     {
@@ -35,6 +36,21 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+    IEnumerator BlockDestroyedCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GameObject.FindGameObjectsWithTag("Block").Length == 0)
+        {
+            if (level < maxLevel) gameData.level++;
+            SceneManager.LoadScene("MainScene");
+        }
+    }
+    public void BlockDestroyed(int points)
+    {
+        gameData.points += points;
+        StartCoroutine(BlockDestroyedCoroutine());
+    }
+
     IEnumerator BallDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
@@ -75,8 +91,15 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            if (gameData.resetOnStart) gameData.Reset();
+        }
+        level = gameData.level;
         StartLevel();
     }
+
     void Update()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
