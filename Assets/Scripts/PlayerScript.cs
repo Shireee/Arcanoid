@@ -23,25 +23,75 @@ public class PlayerScript : MonoBehaviour
     public AudioClip pointSound;
     int requiredPointsToBall { get { return 400 + (level - 1) * 20; } }
 
-
-    void SetMusic()
+    void Start()
     {
-        if (gameData.music)
-            audioSrc.Play();
-        else
-            audioSrc.Stop();
+        audioSrc = Camera.main.GetComponent<AudioSource>(); // Getting audio source
+        Cursor.visible = false; // Off cursor
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            if (gameData.resetOnStart) gameData.Reset(); // Reset GameData object
+        }
+        level = gameData.level;
+        SetMusic();
+        StartLevel();
     }
 
-    void OnGUI()
+    void Update()
     {
-        GUI.Label(new Rect(5, 4, Screen.width - 10, 100),
-        string.Format(
-        "<color=yellow><size=30>Level <b>{0}</b> Balls <b>{1}</b>" +
-        " Score <b>{2}</b></size></color>",
-        gameData.level, gameData.balls, gameData.points));
+        // Checking for pause 
+        if (Time.timeScale > 0)
+        {
+            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var pos = transform.position;
+            pos.x = mousePos.x;
+            transform.position = pos;
+        }
+
+        // Listener of "Space" button
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (Time.timeScale > 0) Time.timeScale = 0;
+            else Time.timeScale = 1;
+        }
+
+        // Listener of "M" button
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            gameData.music = !gameData.music; // Off background sound
+            SetMusic();
+        }
+
+        // Listener of "M" button
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            gameData.sound = !gameData.sound; // Off hit sound
+        }    
+            
     }
 
-    void CreateBlocks(GameObject prefab, float xMax, float yMax,int count, int maxCount)
+    // Function for setting the bg image corresponding to the level
+    void SetBackground()
+    {
+        var bg = GameObject.Find("Background").GetComponent<SpriteRenderer>();
+        bg.sprite = Resources.Load(level.ToString("d2"), typeof(Sprite)) as Sprite;
+    }
+
+    // Function for setting the game field
+    void StartLevel()
+    {
+        SetBackground();
+        var yMax = Camera.main.orthographicSize * 0.8f;
+        var xMax = Camera.main.orthographicSize * Camera.main.aspect * 0.85f;
+        CreateBlocks(bluePrefab, xMax, yMax, level, 8);
+        CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
+        CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
+        CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
+        CreateBalls();
+    }
+
+    // Function for creating Blocks
+    void CreateBlocks(GameObject prefab, float xMax, float yMax, int count, int maxCount)
     {
         {
             if (count > maxCount) count = maxCount;
@@ -58,6 +108,29 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // Function for destroing ball
+    public void BallDestroyed()
+    {
+        gameData.balls--;
+        StartCoroutine(BallDestroyedCoroutine());
+    }
+
+    // Function for create balls
+    void CreateBalls()
+    {
+        int count = 2;
+        if (gameData.balls == 1) count = 1;
+
+        for (int i = 0; i < count; i++)
+        {
+            var obj = Instantiate(ballPrefab);
+            var ball = obj.GetComponent<BallScript>();
+            ball.ballInitialForce += new Vector2(10 * i, 0);
+            ball.ballInitialForce *= 1 + level * ballVelocityMult;
+        }
+    }
+
+    // Corutin to check for playing ball getting sound
     IEnumerator BlockDestroyedCoroutine2()
     {
         for (int i = 0; i < 10; i++)
@@ -67,6 +140,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // Corutin to check for game objects "Block", if no such obj level++
     IEnumerator BlockDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
@@ -76,6 +150,8 @@ public class PlayerScript : MonoBehaviour
             SceneManager.LoadScene("MainScene");
         }
     }
+
+    // Function for destroying block and getting point
     public void BlockDestroyed(int points)
     {
         gameData.points += points;
@@ -91,6 +167,7 @@ public class PlayerScript : MonoBehaviour
         StartCoroutine(BlockDestroyedCoroutine());
     }
 
+    // Corutin to check for game objects "Ball"
     IEnumerator BallDestroyedCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
@@ -102,67 +179,21 @@ public class PlayerScript : MonoBehaviour
                 SceneManager.LoadScene("MainScene");
             }
     }
-    public void BallDestroyed()
-    {
-        gameData.balls--;
-        StartCoroutine(BallDestroyedCoroutine());
-    }
-    void CreateBalls()
-    {
-        int count = 2;
-        if (gameData.balls == 1) count = 1;
 
-        for (int i = 0; i < count; i++)
-        {
-            var obj = Instantiate(ballPrefab);
-            var ball = obj.GetComponent<BallScript>();
-            ball.ballInitialForce += new Vector2(10 * i, 0);
-            ball.ballInitialForce *= 1 + level * ballVelocityMult;
-        }
-    }
-    void SetBackground()
+    // Function for stopping bg-music
+    void SetMusic()
     {
-        var bg = GameObject.Find("Background").GetComponent<SpriteRenderer>();
-        bg.sprite = Resources.Load(level.ToString("d2"), typeof(Sprite)) as Sprite;
+        if (gameData.music) audioSrc.Play();
+        else audioSrc.Stop();
     }
 
-    void StartLevel()
+    // Draw simple UI
+    void OnGUI()
     {
-        SetBackground();
-        var yMax = Camera.main.orthographicSize * 0.8f;
-        var xMax = Camera.main.orthographicSize * Camera.main.aspect * 0.85f;
-        CreateBlocks(bluePrefab, xMax, yMax, level, 8);
-        CreateBlocks(redPrefab, xMax, yMax, 1 + level, 10);
-        CreateBlocks(greenPrefab, xMax, yMax, 1 + level, 12);
-        CreateBlocks(yellowPrefab, xMax, yMax, 2 + level, 15);
-        CreateBalls();
-    }
-    void Start()
-    {
-        audioSrc = Camera.main.GetComponent<AudioSource>();
-        Cursor.visible = false;
-        if (!gameStarted)
-        {
-            gameStarted = true;
-            if (gameData.resetOnStart) gameData.Reset();
-        }
-        level = gameData.level;
-        SetMusic();
-        StartLevel();
-    }
-
-    void Update()
-    {
-        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var pos = transform.position;
-        pos.x = mousePos.x;
-        transform.position = pos;
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            gameData.music = !gameData.music;
-            SetMusic();
-        }
-        if (Input.GetKeyDown(KeyCode.S)) gameData.sound = !gameData.sound;
-
+        GUI.Label(new Rect(5, 4, Screen.width - 10, 100),
+        string.Format(
+        "<color=yellow><size=30>Level <b>{0}</b> Balls <b>{1}</b>" +
+        " Score <b>{2}</b></size></color>",
+        gameData.level, gameData.balls, gameData.points));
     }
 }
