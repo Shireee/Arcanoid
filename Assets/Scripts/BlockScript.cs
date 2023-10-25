@@ -8,7 +8,7 @@ public class BlockScript : MonoBehaviour
     public int hitsToDestroy;
     public int points;
     PlayerScript playerScript;
-    void Start()
+    virtual public void Start()
     {
         if (textObject != null)
         {
@@ -18,8 +18,9 @@ public class BlockScript : MonoBehaviour
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    virtual public void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Ball")) //  hitsToDestroy-- only if collision with ball
         {
             hitsToDestroy--;
             if (hitsToDestroy == 0)

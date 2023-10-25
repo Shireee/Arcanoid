@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6665158720520088327}
   - component: {fileID: 3487118475365191619}
   - component: {fileID: 4194102243327827926}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,10 +112,11 @@ GameObject:
   - component: {fileID: 6983716268270214547}
   - component: {fileID: 4365903363831327460}
   - component: {fileID: 7866662796709918801}
-  - component: {fileID: 6331804903980058966}
-  m_Layer: 0
+  - component: {fileID: 1509639556173882596}
+  - component: {fileID: -7417656230458660949}
+  m_Layer: 11
   m_Name: Yellow Block
-  m_TagString: Block
+  m_TagString: Yellow Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,7 +198,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5292972596946525963}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 86b182ea7630fec4b9857ee48eefd21d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -233,7 +234,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.17, y: 0.57}
   m_EdgeRadius: 0
---- !u!114 &6331804903980058966
+--- !u!114 &1509639556173882596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,9 +243,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 5292972596946525963}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068fc25c782835c418b43a0b04887f63, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bb511142ac4e7f4a99d34fc5475f2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textObject: {fileID: 0}
   hitsToDestroy: 1
   points: 10
+  ballInitialForce: {x: 0, y: 0}
+  speed: 2
+--- !u!50 &-7417656230458660949
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5292972596946525963}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 10
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

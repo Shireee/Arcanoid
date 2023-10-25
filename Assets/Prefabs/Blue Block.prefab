@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2185174732365144029}
   - component: {fileID: 4692762198795208935}
   - component: {fileID: 5053040529629796600}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 8422694695053589980}
   - component: {fileID: 1982595002280134182}
   - component: {fileID: 1383237761500537421}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Blue Block
   m_TagString: Wall
   m_Icon: {fileID: 0}

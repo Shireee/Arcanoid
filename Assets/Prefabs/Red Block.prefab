@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1491844887486801493}
   - component: {fileID: 4470933937469617290}
   - component: {fileID: 5860648889345253868}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 3889761570637601688}
   - component: {fileID: 2980915562445205123}
   - component: {fileID: 8701481093811193704}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Block Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1973807955849147406}
   - component: {fileID: 6810831065416849869}
   - component: {fileID: 9115010327169832028}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Red Block
   m_TagString: Block
   m_Icon: {fileID: 0}
