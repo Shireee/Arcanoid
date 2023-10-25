@@ -20,6 +20,15 @@ public class PlayerScript : MonoBehaviour
     public GameDataScript gameData;
     static bool gameStarted = false;
 
+    void OnGUI()
+    {
+        GUI.Label(new Rect(5, 4, Screen.width - 10, 100),
+        string.Format(
+        "<color=yellow><size=30>Level <b>{0}</b> Balls <b>{1}</b>" +
+        " Score <b>{2}</b></size></color>",
+        gameData.level, gameData.balls, gameData.points));
+    }
+
     void CreateBlocks(GameObject prefab, float xMax, float yMax,int count, int maxCount)
     {
         {
