@@ -39,6 +39,7 @@ public class BallScript : MonoBehaviour
     {
         audioSrc.PlayOneShot(loseSound);
         Destroy(gameObject);
+        playerObj.GetComponent<PlayerScript>().BallDestroyed();
     }
     void OnCollisionEnter2D(Collision2D collision)
     {

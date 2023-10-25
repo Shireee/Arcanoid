@@ -35,6 +35,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
+    IEnumerator BallDestroyedCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GameObject.FindGameObjectsWithTag("Ball").Length == 0) CreateBalls();
+    }
+    public void BallDestroyed()
+    {
+        StartCoroutine(BallDestroyedCoroutine());
+    }
     void CreateBalls()
     {
         int count = 2;
