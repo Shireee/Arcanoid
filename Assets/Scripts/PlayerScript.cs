@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour
         if (!gameStarted)
         {
             gameStarted = true;
-            if (gameData.resetOnStart) gameData.Reset(); // Reset GameData object
+            if (gameData.resetOnStart) gameData.Load(); // Load GameData object
         }
         level = gameData.level;
         SetMusic();
@@ -66,8 +66,25 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             gameData.sound = !gameData.sound; // Off hit sound
-        }    
-            
+        }
+
+        // Listener of "N" button
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            gameData.Reset(); // Reseting game
+            SceneManager.LoadScene("MainScene");
+        }
+
+        // Listener of "Esc" button
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit(); // Closing game
+        }
+    }
+    // Saving data when quit from game
+    void OnApplicationQuit()
+    {
+        gameData.Save();
     }
 
     // Function for setting the bg image corresponding to the level
@@ -180,12 +197,19 @@ public class PlayerScript : MonoBehaviour
             }
     }
 
-    // Function for stopping bg-music
+    // Function for changing state of bg-music
     void SetMusic()
     {
         if (gameData.music) audioSrc.Play();
         else audioSrc.Stop();
     }
+    
+    // Displaying "Off" or "On"
+    string OnOff(bool boolVal)
+    {
+        return boolVal ? "on" : "off";
+    }
+
 
     // Draw simple UI
     void OnGUI()
@@ -195,5 +219,18 @@ public class PlayerScript : MonoBehaviour
         "<color=yellow><size=30>Level <b>{0}</b> Balls <b>{1}</b>" +
         " Score <b>{2}</b></size></color>",
         gameData.level, gameData.balls, gameData.points));
+
+        GUIStyle style = new GUIStyle();
+        style.alignment = TextAnchor.UpperRight;
+        GUI.Label(new Rect(5, 14, Screen.width - 10, 100),
+        string.Format(
+         "<color=yellow><size=20><color=white>Space</color>-pause {0}" +
+         " <color=white>N</color>-new" +
+         " <color=white>J</color>-jump" +
+         " <color=white>M</color>-music {1}" +
+         " <color=white>S</color>-sound {2}" +
+         " <color=white>Esc</color>-exit</size></color>",
+         OnOff(Time.timeScale > 0), OnOff(!gameData.music),
+         OnOff(!gameData.sound)), style);
     }
 }
