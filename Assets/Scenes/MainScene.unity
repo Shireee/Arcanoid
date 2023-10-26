@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 09945df7d1d537740b3ed566410f1e59, type: 3}
+    - target: {fileID: 8208855404047542360, guid: ee6eae8a4c135c34282a98fd236200b2, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 5770804303234380639, guid: d9c8c4963c158774db1c1bf21a5ad3af, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -305,6 +309,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 8578359246251091455}
+    - target: {fileID: 8577862740001437132, guid: ab2bd080268ca7340bf8157a70d9310b, type: 3}
+      propertyPath: mixerGroup
+      value: 
+      objectReference: {fileID: -2376479357174390593, guid: d9c8c4963c158774db1c1bf21a5ad3af, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -440,6 +448,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1251286982877726740, guid: 85491bf7d3033144a9f043390430f5a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -103.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2373993699183973226, guid: 85491bf7d3033144a9f043390430f5a6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -556,6 +568,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6947336431337324200, guid: 85491bf7d3033144a9f043390430f5a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 27.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -613,6 +629,10 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 8578359246251091455}
+    - target: {fileID: 7629455174816231326, guid: 4acda0fd11e2544439008278629f748b, type: 3}
+      propertyPath: audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: d9c8c4963c158774db1c1bf21a5ad3af, type: 2}
     - target: {fileID: 8838957527305964713, guid: 4acda0fd11e2544439008278629f748b, type: 3}
       propertyPath: m_Name
       value: CanvasController

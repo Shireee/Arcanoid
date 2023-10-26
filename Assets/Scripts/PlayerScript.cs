@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,12 +22,15 @@ public class PlayerScript : MonoBehaviour
     AudioSource audioSrc;
     public AudioClip pointSound;
     public Canvas canvas;
+    public AudioMixerGroup mixerGroup;
+
     int requiredPointsToBall { get { return 400 + (level - 1) * 20; } }
 
     void Start()
     {
         
         audioSrc = Camera.main.GetComponent<AudioSource>(); // Getting audio source
+        audioSrc.outputAudioMixerGroup = mixerGroup;
         Cursor.visible = false; // Off cursor
         if (!gameStarted)
         {

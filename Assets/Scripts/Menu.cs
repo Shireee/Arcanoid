@@ -25,42 +25,70 @@ public class Menu : MonoBehaviour
         btn_newGame.onClick.AddListener(NewGame);
         btn_exit.onClick.AddListener(Exit);
 
-
         toggle_background_music.onValueChanged.AddListener(delegate {
             ToggleValueChanged(toggle_background_music, slider_background_music);
+            setBgm(slider_background_music);
         });
+
 
         toggle_sound_effects.onValueChanged.AddListener(delegate {
             ToggleValueChanged(toggle_sound_effects, slider_sound_effects);
+            setSfx(slider_sound_effects);
         });
 
+
+
         slider_background_music.onValueChanged.AddListener(delegate {
-            SoundSliderValueChanged(slider_background_music);
+            setBgm(slider_background_music);
         });
 
         slider_sound_effects.onValueChanged.AddListener(delegate {
-            SoundSliderValueChanged(slider_sound_effects);
+            setSfx(slider_sound_effects);
         });
     }
+
+    public void setBgm(Slider slider)
+    {
+        float volume = slider.value;
+        if (volume != 0) audioMixer.SetFloat("bgm", Mathf.Log10(volume) * 20);
+    }
+
+    public void setSfx(Slider slider)
+    {
+        float volume = slider.value;
+        if (volume != 0) audioMixer.SetFloat("sfx", Mathf.Log10(volume) * 20);
+    }
+
 
     // Toggle controller 
     void ToggleValueChanged(Toggle toggle, Slider slider)
     {
-        if (toggle.isOn)
+        if (toggle == canvas.transform.Find("toggle_background_music").GetComponent<Toggle>())
         {
-            slider.interactable = true; 
+            if (toggle.isOn)
+            {
+                slider.interactable = true;
+                gameData.music = true; 
+            }
+            else
+            {
+                slider.interactable = false;
+                gameData.music = false; 
+            }
         }
-        else
+        else if (toggle == canvas.transform.Find("toggle_sound_effects").GetComponent<Toggle>())
         {
-            slider.interactable = false; 
+            if (toggle.isOn)
+            {
+                slider.interactable = true;
+                gameData.sound = true;
+            }
+            else
+            {
+                slider.interactable = false;
+                gameData.sound = true;
+            }
         }
-    }
-
-    // Slider controller 
-    void SoundSliderValueChanged(Slider slider)
-    {
-        float soundVolume = slider.value;
-        audioMixer.SetFloat("volume", soundVolume); 
     }
 
     // New game button logic

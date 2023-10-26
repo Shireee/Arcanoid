@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3347522331238110540}
   - component: {fileID: 8461701874292953196}
   m_Layer: 5
-  m_Name: slider_background_music
+  m_Name: slider_sound_effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 1251286982877726740}
   - component: {fileID: 4275604744749739597}
   m_Layer: 5
-  m_Name: toggle_sound_effects
+  m_Name: toggle_background_music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,7 +498,7 @@ GameObject:
   - component: {fileID: 6947336431337324200}
   - component: {fileID: 4644926764813956534}
   m_Layer: 5
-  m_Name: slider_sound_effects
+  m_Name: slider_background_music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1462,7 +1462,7 @@ GameObject:
   - component: {fileID: 7992940352835998032}
   - component: {fileID: 8488926712451634544}
   m_Layer: 5
-  m_Name: toggle_background_music
+  m_Name: toggle_sound_effects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
