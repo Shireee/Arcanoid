@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -21,14 +20,21 @@ public class PlayerScript : MonoBehaviour
     static bool gameStarted = false;
     AudioSource audioSrc;
     public AudioClip pointSound;
+    public Canvas canvas;
     int requiredPointsToBall { get { return 400 + (level - 1) * 20; } }
 
     void Start()
     {
+        
         audioSrc = Camera.main.GetComponent<AudioSource>(); // Getting audio source
         Cursor.visible = false; // Off cursor
         if (!gameStarted)
         {
+            // Menu when start
+            canvas.enabled = true;
+            Time.timeScale = 0;
+            Cursor.visible = true;
+
             gameStarted = true;
             if (gameData.resetOnStart) gameData.Load(); // Load GameData object
         }
@@ -42,6 +48,8 @@ public class PlayerScript : MonoBehaviour
         // Checking for pause 
         if (Time.timeScale > 0)
         {
+            canvas.enabled = false;
+            Cursor.visible = false;
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var pos = transform.position;
             pos.x = mousePos.x;
@@ -51,6 +59,13 @@ public class PlayerScript : MonoBehaviour
         // Listener of "Space" button
         if (Input.GetButtonDown("Pause"))
         {
+            Text text = canvas.transform.Find("Header_text").GetComponent<Text>();
+            if (text != null)
+            {
+                text.text = "Pause"; 
+            }
+            canvas.enabled = true; // Включаем канвас
+            Cursor.visible = true;
             if (Time.timeScale > 0) Time.timeScale = 0;
             else Time.timeScale = 1;
         }
@@ -90,7 +105,7 @@ public class PlayerScript : MonoBehaviour
     // Function for setting the bg image corresponding to the level
     void SetBackground()
     {
-        var bg = GameObject.Find("Background").GetComponent<SpriteRenderer>();
+        var bg = GameObject.Find("GameBackground").GetComponent<SpriteRenderer>();
         bg.sprite = Resources.Load(level.ToString("d2"), typeof(Sprite)) as Sprite;
     }
 
