@@ -8,11 +8,11 @@ public class Menu : MonoBehaviour
     public Canvas canvas; 
     public GameDataScript gameData;
     public AudioMixer audioMixer;
-
+    public AudioSource audioSrc;
 
     void Start()
     {
-
+        audioSrc = Camera.main.GetComponent<AudioSource>();
         Button btn_continue = canvas.transform.Find("Button_continue").GetComponent<Button>();
         Button btn_newGame = canvas.transform.Find("Button_newGame").GetComponent<Button>();
         Button btn_exit = canvas.transform.Find("Button_exit").GetComponent<Button>();
@@ -45,6 +45,13 @@ public class Menu : MonoBehaviour
         slider_sound_effects.onValueChanged.AddListener(delegate {
             setSfx(slider_sound_effects);
         });
+
+    }
+
+    void SetMusic()
+    {
+        if (gameData.music) audioSrc.Play();
+        else audioSrc.Stop();
     }
 
     public void setBgm(Slider slider)
@@ -60,6 +67,7 @@ public class Menu : MonoBehaviour
     }
 
 
+
     // Toggle controller 
     void ToggleValueChanged(Toggle toggle, Slider slider)
     {
@@ -68,28 +76,34 @@ public class Menu : MonoBehaviour
             if (toggle.isOn)
             {
                 slider.interactable = true;
-                gameData.music = true; 
+                if (!gameData.music) gameData.music = !gameData.music;
+                Debug.Log("music on");
             }
             else
             {
                 slider.interactable = false;
-                gameData.music = false; 
+                if (gameData.music) gameData.music = !gameData.music;
+                Debug.Log("music off");
             }
+            SetMusic();
         }
         else if (toggle == canvas.transform.Find("toggle_sound_effects").GetComponent<Toggle>())
-        {
+        {   
             if (toggle.isOn)
             {
                 slider.interactable = true;
-                gameData.sound = true;
+                if (!gameData.sound) gameData.sound = !gameData.sound;
+                Debug.Log("sound_effects on");
             }
             else
             {
                 slider.interactable = false;
-                gameData.sound = true;
+                if (gameData.sound) gameData.sound = !gameData.sound;
+                Debug.Log("sound_effects off");
             }
         }
     }
+
 
     // New game button logic
     void NewGame()
@@ -107,6 +121,7 @@ public class Menu : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    // Exit button logic
     void Exit()
     {
         Debug.Log("Game closed!");
