@@ -11,6 +11,7 @@ public class GameDataScript : ScriptableObject
     public int pointsToBall = 0; // Initial number of point needed for getting ball
     public bool music = true; // background music controller
     public bool sound = true; // hit music controller 
+    public bool IsNewGame = false;
 
     // Restart state of GameData object when restarting game 
     public void Reset()

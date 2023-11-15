@@ -58,7 +58,20 @@ public class BallScript : MonoBehaviour
     // Add hit sound when touch block
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (gameData.sound)  audioSrc.PlayOneShot(hitSound, 4);
+        if (collision.gameObject.CompareTag("Yellow Block"))
+        {
+            ContactPoint2D contact = collision.GetContact(0); // Получение информации о контакте
+
+            Vector2 normal = contact.normal; // Получение нормали к поверхности столкновения
+
+            // Отражение вектора скорости относительно нормали
+            Vector2 reflectedVelocity = Vector2.Reflect(rb.velocity, normal);
+
+            rb.velocity = reflectedVelocity; // Установка отраженной скорости для шарика
+        }
+
+        if (gameData.sound) audioSrc.PlayOneShot(hitSound, 4);
     }
+
 
 }

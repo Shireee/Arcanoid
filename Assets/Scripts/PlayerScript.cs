@@ -67,6 +67,17 @@ public class PlayerScript : MonoBehaviour
             transform.position = pos;
         }
 
+        if (gameData.IsNewGame)
+        {
+            Cursor.visible = true;
+            canvas.enabled = true;
+            Button btn_continue = canvas.transform.Find("Button_continue").GetComponent<Button>();
+            btn_continue.gameObject.SetActive(false);
+        } else {
+            Button btn_continue = canvas.transform.Find("Button_continue").GetComponent<Button>();
+            btn_continue.gameObject.SetActive(true);
+        }
+
         // Listener of "Space" button
         if (Input.GetButtonDown("Pause"))
         {
@@ -261,6 +272,7 @@ public class PlayerScript : MonoBehaviour
             if (gameData.balls > 0) CreateBalls();
             else
             {
+                gameData.IsNewGame = true;
                 gameData.Reset();
                 SceneManager.LoadScene("MainScene");
             }

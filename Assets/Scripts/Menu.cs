@@ -108,6 +108,7 @@ public class Menu : MonoBehaviour
     // New game button logic
     void NewGame()
     {
+        gameData.IsNewGame = false;
         canvas.enabled = false; // disable canvas
         Time.timeScale = 1; // turn on game
         gameData.Reset(); 
