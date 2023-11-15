@@ -43,4 +43,20 @@ public class GameDataScript : ScriptableObject
         sound = PlayerPrefs.GetInt("sound", 1) == 1;
     }
 
+    // Bonus probability 
+    public int[] getProbab()
+    {
+        int[] probab = new int[3];
+        probab[0] = 30; // Fire
+        probab[1] = 30; // Steel
+        probab[2] = 50; // Norm
+
+        int[] probsum = new int[3];
+        probsum[0] = probab[0];
+        for (int i = 1; i < 3; i++)
+            probsum[i] = probsum[i - 1] + probab[i];
+
+        return probsum;
+    }
+
 }

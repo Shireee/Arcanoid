@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Steel : MonoBehaviour
+public class Steel : BonusBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    PlayerScript playerObj;
 
-    // Update is called once per frame
-    void Update()
+    public override void BonusActivate()
     {
-        
+        playerObj = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        playerObj.force = 40;
+
+        var balls = GameObject.FindGameObjectsWithTag("Ball");
+
+        foreach (GameObject ball in balls)
+        {
+            var BallSprite = ball.GetComponent<SpriteRenderer>();
+            BallSprite.color = Color.gray;
+        }
     }
 }

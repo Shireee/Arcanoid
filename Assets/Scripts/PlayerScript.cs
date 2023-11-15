@@ -15,10 +15,17 @@ public class PlayerScript : MonoBehaviour
     public GameObject greenPrefab;
     public GameObject yellowPrefab;
     public GameObject ballPrefab;
+
     static Collider2D[] colliders = new Collider2D[50];
     static ContactFilter2D contactFilter = new ContactFilter2D();
     public GameDataScript gameData;
     static bool gameStarted = false;
+
+    // Bonus 
+    public GameObject bonusPrefab;
+    public int force = 1;
+
+    // Audio and interface
     AudioSource audioSrc;
     public AudioClip pointSound;
     public Canvas canvas;
@@ -188,11 +195,12 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Function for destroying block and getting point
-    public void BlockDestroyed(int points)
+    public void BlockDestroyed(int points, string name, Vector3 pos)
     {
         gameData.points += points;
         if (gameData.sound) audioSrc.PlayOneShot(pointSound, 5);
         gameData.pointsToBall += points;
+
         if (gameData.pointsToBall >= requiredPointsToBall)
         {
             gameData.balls++;
@@ -200,7 +208,49 @@ public class PlayerScript : MonoBehaviour
             if (gameData.sound) StartCoroutine(BlockDestroyedCoroutine2());
 
         }
+        // Create bonus if green block destroed 
+        if (name == "Green Block(Clone)")
+        {
+            int[] probab = gameData.getProbab();
+            CreateBonus(probab, pos);
+        }
+
         StartCoroutine(BlockDestroyedCoroutine());
+    }
+
+    // Handle bounus creation
+    public void CreateBonus(int[] probab, Vector3 pos)
+    {
+        int rand = Random.Range(1, 100);
+        var obj = Instantiate(bonusPrefab, pos, Quaternion.identity);
+        if (rand < probab[0])
+        {
+            obj.AddComponent<Fire>().gameData = gameData;
+            obj.GetComponent<Fire>().textObject = obj.transform.Find("Canvas").gameObject.transform.Find("BlockText").gameObject;
+            obj.GetComponent<Fire>().text = "Fire";
+            obj.GetComponent<Fire>().bonusColor = Color.red;
+            obj.GetComponent<Fire>().textColor = Color.black;
+            return;
+        }
+        else if (rand < probab[1])
+        {
+            obj.AddComponent<Steel>().gameData = gameData;
+            obj.GetComponent<Steel>().textObject = obj.transform.Find("Canvas").gameObject.transform.Find("BlockText").gameObject;
+            obj.GetComponent<Steel>().text = "Steel";
+            obj.GetComponent<Steel>().bonusColor = Color.gray;
+            obj.GetComponent<Steel>().textColor = Color.black;
+            return;
+        }
+        else if (rand < probab[2])
+        {
+            obj.AddComponent<Norm>().gameData = gameData;
+            obj.GetComponent<Norm>().textObject = obj.transform.Find("Canvas").gameObject.transform.Find("BlockText").gameObject;
+            obj.GetComponent<Norm>().text = "Norm";
+            obj.GetComponent<Norm>().bonusColor = Color.white;
+            obj.GetComponent<Norm>().textColor = Color.black;
+            return;
+        }
+
     }
 
     // Corutin to check for game objects "Ball"
